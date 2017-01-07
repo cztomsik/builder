@@ -1,6 +1,8 @@
 Vue.config.devtools = true;
 
-class Builder extends Base{
+import {Base} from './base';
+
+export class Builder extends Base{
   init(){
     super.init();
 
@@ -42,7 +44,6 @@ Builder.template = `
     <tree-view class="outline w12" :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <designer :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <div class="right w16">
-      <b-button @click=" del() " />
       <b-button v-for=" (v, k) in snippets " @click=" add(v) " :text=" k " />
 
       <property-grid :data=" selection && selection.options " />
@@ -50,7 +51,7 @@ Builder.template = `
   </div>
 `;
 
-class Designer extends Base{
+export class Designer extends Base{
   init(){
     this.hover = null;
   }
@@ -72,7 +73,7 @@ Designer.defaults = {
   value: null
 };
 
-class XComp extends Base{
+export class XComp extends Base{
   render(c){
     const on = {hover: (node) => {this.$emit('hover', node)}, input: (node) => {this.$emit('input', node)}};
     const nativeOn = {mousedown: (e) => {e.stopPropagation(); this.$emit('input', this.node)}, mousemove: (e) => {e.stopPropagation(); this.$emit('hover', this.node)}};
@@ -96,16 +97,10 @@ XComp.defaults = {
   node: null
 };
 
-class XRect extends Base{}
+export class XRect extends Base{}
 XRect.template = `
   <div class="rect" :style=" rect && {position: 'fixed', left: rect.left + 'px', top: rect.top + 'px', width: rect.width + 'px', height: rect.height + 'px'} " @click=" $emit('click') " />
 `;
 XRect.defaults = {
   rect: null
-};
-
-window.onload = () => {
-  _.forEach([BButton, BText, BTextInput, BContainer, Builder, PropertyGrid, TreeView, TreeNode, Designer, XComp, XRect], _.method('register'));
-  document.body.insertAdjacentHTML('beforeend', '<builder />');
-  new Vue({el: 'builder'});
 };
