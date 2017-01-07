@@ -1,6 +1,6 @@
 Vue.config.devtools = true;
 
-import {Base} from './base';
+import {Base} from './ui/base';
 
 export class Builder extends Base{
   init(){
