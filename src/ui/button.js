@@ -1,11 +1,17 @@
 import {Base} from './base';
 
-export class BButton extends Base{}
+export class Button extends Base{}
 
-BButton.template = `
+Button.template = `
   <button class="button" @click="$emit('click')">{{ text }}</button>
 `;
 
-BButton.defaults = {
+Button.defaults = {
   text: ''
 };
+
+Button.style = `
+  .button{
+    padding: 5px 10px;
+  }
+`;

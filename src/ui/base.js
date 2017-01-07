@@ -34,7 +34,9 @@ export class Base{
       })
     }, hooks);
 
-    Vue.component(_.kebabCase(this.name), definition);
+    document.head.insertAdjacentHTML('beforeend', `<style>${this.style}</style>`);
+
+    Vue.component('b-' + _.kebabCase(this.name), definition);
     return;
 
     function getMethods(o){
@@ -46,6 +48,7 @@ export class Base{
     }
   }
 }
+
 Base.defaults = {
   className: ''
 };

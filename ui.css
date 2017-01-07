@@ -19,37 +19,6 @@ table{
   width: 100%;
 }
 
-.button{
-  padding: 5px 10px;
-}
-
-.text-input{
-  border: 1px solid;
-}
-
-.tree-view, .tree-view ul{
-  list-style: none;
-}
-
-.tree-view ul{
-  padding-left: 15px;
-}
-
-.tree-view span{
-  cursor: pointer;
-  display: inline-block;
-  padding: 1px 5px;
-}
-
-.tree-view span:hover{
-  background: #eee;
-}
-
-.tree-view span.active{
-  background: #00f;
-  color: #fff;
-}
-
 .w1{width: 1rem}
 .w2{width: 2rem}
 .w3{width: 3rem}
