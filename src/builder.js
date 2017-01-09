@@ -46,7 +46,7 @@ Builder.template = `
     <div class="right w16">
       <b-button v-for=" (v, k) in snippets " @click=" add(v) " :text=" k " />
 
-      <b-property-grid :data=" selection && selection.options " />
+      <b-property-grid :node=" selection " />
     </div>
   </div>
 `;
@@ -131,8 +131,9 @@ export class XComp extends Base{
 
     // handle hover & selection
     const nativeOn = {
-      mousemove: (e) => {e.stopPropagation(); this.$emit('hover', this.node)},
-      mousedown: (e) => {e.stopPropagation(); this.$emit('input', this.node)},
+      // commented because of DnD
+      mousemove: (e) => {e.stopPropagation(); /*e.stopImmediatePropagation(); e.preventDefault();*/ this.$emit('hover', this.node)},
+      mousedown: (e) => {e.stopPropagation(); /*e.stopImmediatePropagation(); e.preventDefault();*/ this.$emit('input', this.node)},
       dragstart: (e) => {
         e.stopPropagation();
         e.dataTransfer.setData('text/plain', 'foo');
@@ -205,15 +206,15 @@ XRect.defaults = {
 
 export class PropertyGrid extends Base{}
 PropertyGrid.template = `
-  <table class="table">
-    <tr v-for=" k in _.keys(data) ">
+  <table class="table" v-if=" node ">
+    <tr v-for=" k in _.keys(Base.lib[this.node.name].defaults) ">
       <td>{{ k }}</td>
       <td style="padding-left: 5px">
-        <b-text-input v-model=" data[k] " />
+        <b-text-input v-model=" node.options[k] " />
       </td>
     </tr>
   </table>
 `;
 PropertyGrid.defaults = {
-  data: null
+  node: null
 };

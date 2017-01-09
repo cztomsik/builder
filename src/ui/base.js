@@ -36,7 +36,10 @@ export class Base{
 
     document.head.insertAdjacentHTML('beforeend', `<style>${this.style}</style>`);
 
-    Vue.component('b-' + _.kebabCase(this.name), definition);
+    const name = 'b-' + _.kebabCase(this.name);
+
+    Base.lib[name] = this;
+    Vue.component(name, definition);
     return;
 
     function getMethods(o){
@@ -52,3 +55,5 @@ export class Base{
 Base.defaults = {
   className: ''
 };
+
+Base.lib = {};
