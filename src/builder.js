@@ -1,20 +1,24 @@
-Vue.config.devtools = true;
-
 import {Base} from './ui/base';
+
+const SNIPPETS = {
+  'ct': {name: 'b-container', options: {className: ''}, children: []},
+  'tx': {name: 'b-text', options: {value: 'Text'}},
+  'in': {name: 'b-text-input', options: {}},
+  'bt': {name: 'b-button', options: {text: 'Button'}},
+  'di': {name: 'b-dialog', options: {}, children: []},
+  'wn': {name: 'b-window', options: {}, children: []}
+};
+
+Vue.config.devtools = true;
 
 export class Builder extends Base{
   init(){
     super.init();
 
-    this.snippets = {
-      C: {name: 'b-container', options: {className: ''}, children: []},
-      T: {name: 'b-text', options: {value: 'Text'}},
-      TI: {name: 'b-text-input', options: {}},
-      B: {name: 'b-button', options: {text: 'Button'}}
-    };
+    this.snippets = SNIPPETS;
 
     // TODO: ast
-    this.nodes = (sessionStorage.nodes && JSON.parse(sessionStorage.nodes)) || [_.cloneDeep(this.snippets.C)];
+    this.nodes = (sessionStorage.nodes && JSON.parse(sessionStorage.nodes)) || [_.cloneDeep(this.snippets.ct)];
     this.selection = null;
   }
 
@@ -207,7 +211,7 @@ XRect.defaults = {
 export class PropertyGrid extends Base{}
 PropertyGrid.template = `
   <table class="table" v-if=" node ">
-    <tr v-for=" k in _.keys(Base.lib[this.node.name].defaults) ">
+    <tr v-for=" k in _.keys(Base.lib[node.name].defaults) ">
       <td>{{ k }}</td>
       <td style="padding-left: 5px">
         <b-text-input v-model=" node.options[k] " />

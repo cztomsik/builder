@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "builder",
+  "scripts": {
+    "dev": "rollup -w -o build/bundle.js src/index.js & http-server -c-1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "^0.41.1",
+    "rollup-watch": "^3.2.2",
+    "http-server": "^0.9.0"
+  }
+}
