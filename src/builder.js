@@ -14,6 +14,10 @@ const SNIPPETS = {
   'Window': {name: 'b-window', options: {}, children: []}
 };
 
+const EXAMPLES = [
+  {name: 'empty', nodes: [{name: 'ct', options: {}, children: []}]}
+];
+
 Vue.config.devtools = true;
 
 export class Builder extends Base{
@@ -21,6 +25,7 @@ export class Builder extends Base{
     super.init();
 
     this.snippets = SNIPPETS;
+    this.examples = EXAMPLES;
 
     // TODO: ast
     this.nodes = (sessionStorage.nodes && JSON.parse(sessionStorage.nodes)) || [_.cloneDeep(this.snippets.ct)];
@@ -52,12 +57,20 @@ export class Builder extends Base{
     e.dataTransfer.effectAllowed = 'copy';
     dragged = _.cloneDeep(v);
   }
+
+  load(nodes){
+    this.nodes = nodes;
+  }
 }
 Builder.template = `
   <div class="builder">
     <b-tree-view class="outline w12" :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <b-designer :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <div class="right w16">
+      <b-button v-for=" e in examples " :text=" e.name " @click=" load(e.nodes) " />
+
+      <br>
+
       <b-button v-for=" (v, k) in snippets " @click=" add(v) " :text=" k " draggable="true" @dragstart.native=" palleteDrag($event, v) " />
 
       <b-property-grid :node=" selection " />
