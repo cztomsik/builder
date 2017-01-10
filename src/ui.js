@@ -1,6 +1,7 @@
 import {Base} from './ui/base';
 
 export * from './ui/button';
+export * from './ui/data-grid';
 export * from './ui/dialog';
 export * from './ui/label';
 export * from './ui/text-input';

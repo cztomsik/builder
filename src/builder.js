@@ -1,12 +1,17 @@
 import {Base} from './ui/base';
 
+let dragged = null;
+let copy = null;
+
 const SNIPPETS = {
   'ct': {name: 'b-container', options: {className: ''}, children: []},
   'tx': {name: 'b-text', options: {value: 'Text'}},
-  'in': {name: 'b-text-input', options: {}},
-  'bt': {name: 'b-button', options: {text: 'Button'}},
-  'di': {name: 'b-dialog', options: {}, children: []},
-  'wn': {name: 'b-window', options: {}, children: []}
+  'Label': {name: 'b-label', options: {text: 'Label'}},
+  'TextInput': {name: 'b-text-input', options: {}},
+  'DataGrid': {name: 'b-data-grid', options: {}},
+  'Button': {name: 'b-button', options: {text: 'Button'}},
+  'Dialog': {name: 'b-dialog', options: {}, children: []},
+  'Window': {name: 'b-window', options: {}, children: []}
 };
 
 Vue.config.devtools = true;
@@ -42,13 +47,18 @@ export class Builder extends Base{
     this.selection.parent.children = _.without(this.selection.parent.children, this.selection);
     this.selection = null;
   }
+
+  palleteDrag(e, v){
+    e.dataTransfer.effectAllowed = 'copy';
+    dragged = _.cloneDeep(v);
+  }
 }
 Builder.template = `
   <div class="builder">
     <b-tree-view class="outline w12" :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <b-designer :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
     <div class="right w16">
-      <b-button v-for=" (v, k) in snippets " @click=" add(v) " :text=" k " />
+      <b-button v-for=" (v, k) in snippets " @click=" add(v) " :text=" k " draggable="true" @dragstart.native=" palleteDrag($event, v) " />
 
       <b-property-grid :node=" selection " />
     </div>
@@ -122,9 +132,6 @@ Designer.defaults = {
   value: null
 };
 
-let dragged = null;
-let copy = null;
-
 export class XComp extends Base{
   render(c){
     // forward
@@ -140,7 +147,6 @@ export class XComp extends Base{
       mousedown: (e) => {e.stopPropagation(); /*e.stopImmediatePropagation(); e.preventDefault();*/ this.$emit('input', this.node)},
       dragstart: (e) => {
         e.stopPropagation();
-        e.dataTransfer.setData('text/plain', 'foo');
         e.dataTransfer.effectAllowed = 'copyMove';
         dragged = this.node;
       },

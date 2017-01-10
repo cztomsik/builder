@@ -6,7 +6,8 @@ export class Window extends Base{
 
 Window.template = `
   <div class="window" :style=" {width: width, height: height} ">
-    TODO: window
+    <div class="window-header">TODO: header</div>
+    <slot />
   </div>
 `;
 
