@@ -172,9 +172,16 @@ export class XComp extends Base{
 
     // handle hover & selection
     const nativeOn = {
-      // commented because of DnD
-      mousemove: (e) => {e.stopPropagation(); /*e.stopImmediatePropagation(); e.preventDefault();*/ this.$emit('hover', this.node)},
-      mousedown: (e) => {e.stopPropagation(); /*e.stopImmediatePropagation(); e.preventDefault();*/ this.$emit('input', this.node)},
+      mousemove: (e) => {e.stopPropagation(); this.$emit('hover', this.node)},
+      mousedown: (e) => {
+        // TODO: QnD
+        if (e.target.blur){
+          _.defer(() => {
+            e.target.closest('.designer').focus();
+          });
+        }
+
+        e.stopPropagation(); this.$emit('input', this.node)},
       dragstart: (e) => {
         e.stopPropagation();
         e.dataTransfer.effectAllowed = 'copyMove';
