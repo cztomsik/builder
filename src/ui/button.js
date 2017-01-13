@@ -12,6 +12,9 @@ Button.defaults = {
 
 Button.style = `
   .button{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: transparent;
     padding: 5px 10px;
   }
 `;

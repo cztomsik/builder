@@ -6,6 +6,7 @@ let copy = null;
 const SNIPPETS = {
   'ct': {name: 'b-container', options: {className: ''}, children: []},
   'tx': {name: 'b-text', options: {value: 'Text'}},
+  'Card': {name: 'b-card', options: {className: ''}, children: []},
   'Label': {name: 'b-label', options: {text: 'Label'}},
   'TextInput': {name: 'b-text-input', options: {}},
   'DataGrid': {name: 'b-data-grid', options: {}},
@@ -15,7 +16,7 @@ const SNIPPETS = {
 };
 
 const EXAMPLES = [
-  {name: 'empty', nodes: [{name: 'ct', options: {}, children: []}]}
+  {name: 'empty', nodes: [{name: 'b-container', options: {}, children: []}]}
 ];
 
 Vue.config.devtools = true;
@@ -26,6 +27,8 @@ export class Builder extends Base{
 
     this.snippets = SNIPPETS;
     this.examples = EXAMPLES;
+
+    this.clipboard = null;
 
     // TODO: ast
     this.nodes = (sessionStorage.nodes && JSON.parse(sessionStorage.nodes)) || [_.cloneDeep(this.snippets.ct)];
@@ -61,11 +64,24 @@ export class Builder extends Base{
   load(nodes){
     this.nodes = nodes;
   }
+
+  copy(){
+    console.log('copy');
+    this.clipboard = this.selection;
+  }
+
+  paste(){
+    const refNode = this.selection || this.nodes[0];
+
+    if (this.clipboard){
+      refNode.parent.children.splice(_.indexOf(refNode.parent.children, refNode) + 1, 0, _.cloneDeep(this.clipboard));
+    }
+  }
 }
 Builder.template = `
   <div class="builder">
-    <b-tree-view class="outline w12" :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
-    <b-designer :items=" nodes " v-model=" selection " @keyup.native.delete="del" />
+    <b-tree-view class="outline w12" :items=" nodes " v-model=" selection " @keyup.native.delete=" del() " @keydown.native.meta.67=" copy() " @keydown.native.meta.86=" paste() " />
+    <b-designer :items=" nodes " v-model=" selection " @keyup.native.delete=" del() " @keydown.native.meta.67=" copy() " @keydown.native.meta.86=" paste() " />
     <div class="right w16">
       <b-button v-for=" e in examples " :text=" e.name " @click=" load(e.nodes) " />
 
