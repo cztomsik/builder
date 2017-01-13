@@ -4,6 +4,7 @@ export * from './ui/button';
 export * from './ui/card';
 export * from './ui/data-grid';
 export * from './ui/dialog';
+export * from './ui/grid';
 export * from './ui/label';
 export * from './ui/text-input';
 export * from './ui/tree-view';

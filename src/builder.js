@@ -6,6 +6,7 @@ let copy = null;
 const SNIPPETS = {
   'ct': {name: 'b-container', options: {className: ''}, children: []},
   'tx': {name: 'b-text', options: {value: 'Text'}},
+  'Grid': {name: 'b-grid', options: {className: ''}, children: []},
   'Card': {name: 'b-card', options: {className: ''}, children: []},
   'Label': {name: 'b-label', options: {text: 'Label'}},
   'TextInput': {name: 'b-text-input', options: {}},
