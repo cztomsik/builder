@@ -12,11 +12,12 @@ export class DataGrid extends Base{
     super.mounted();
 
     // TODO: directive?
+    // TODO2: get DataGridColumn instances rather than XComp ones
     const mo = new MutationObserver((mutations) => {
-      this.columns = _.slice(this.$children);
+      this.columns = _.map(this.$children, '$children.0');
     });
 
-    this.columns = _.slice(this.$children);
+    this.columns = _.map(this.$children, '$children.0');
 
     mo.observe(this.$refs.theadTr, {childList: true})
   }
@@ -31,7 +32,7 @@ DataGrid.template = `
     </thead>
     <tbody>
       <tr v-for=" i in [1, 2, 3, 4] ">
-        <td v-for=" c in columns ">TODO</td>
+        <td v-for=" c in columns ">{{ c.field }}</td>
       </tr>
     </tbody>
   </table>
