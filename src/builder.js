@@ -7,10 +7,13 @@ const SNIPPETS = {
   'ct': {name: 'b-container', options: {className: ''}, children: []},
   'tx': {name: 'b-text', options: {value: 'Text'}},
   'Grid': {name: 'b-grid', options: {className: ''}, children: []},
-  'Card': {name: 'b-card', options: {className: ''}, children: []},
+  'Card': {name: 'b-card', options: {className: '', title: 'Card'}, children: []},
   'Label': {name: 'b-label', options: {text: 'Label'}},
+  'Link': {name: 'b-link', options: {text: 'Link'}},
   'TextInput': {name: 'b-text-input', options: {}},
-  'DataGrid': {name: 'b-data-grid', options: {}},
+  'DataGrid': {name: 'b-data-grid', options: {}, children: [
+    {name: 'b-data-grid-column', options: {header: 'Name', field: 'name'}}
+  ]},
   'Button': {name: 'b-button', options: {text: 'Button'}},
   'Dialog': {name: 'b-dialog', options: {}, children: []},
   'Window': {name: 'b-window', options: {}, children: []}

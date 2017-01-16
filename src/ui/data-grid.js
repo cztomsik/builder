@@ -1,19 +1,37 @@
 import {Base} from './base';
 
-export class DataGrid extends Base{}
+export class DataGrid extends Base{
+  init(){
+    super.init();
+
+    // it's not possible to access children directly
+    this.columns = [];
+  }
+
+  mounted(){
+    super.mounted();
+
+    // TODO: directive?
+    const mo = new MutationObserver((mutations) => {
+      this.columns = _.slice(this.$children);
+    });
+
+    this.columns = _.slice(this.$children);
+
+    mo.observe(this.$refs.theadTr, {childList: true})
+  }
+}
 
 DataGrid.template = `
   <table class="data-grid">
     <thead>
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
+      <tr ref="theadTr">
+        <slot />
       </tr>
     </thead>
     <tbody>
       <tr v-for=" i in [1, 2, 3, 4] ">
-        <td>TODO</td>
-        <td>TODO</td>
+        <td v-for=" c in columns ">TODO</td>
       </tr>
     </tbody>
   </table>

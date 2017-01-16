@@ -12,9 +12,6 @@ Grid.style = `
   .grid{
     display: flex;
     flex-wrap: wrap;
-  }
-
-  .grid > *{
-    margin: 15px;
+    justify-content: space-between;
   }
 `;
